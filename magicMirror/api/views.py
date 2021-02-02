@@ -6,40 +6,83 @@ from .serializers import (
         DateSerializer, JobSerializer, EventSerializer
 )
 
+from datetime import datetime
 
-class DateListView(generics.ListAPIView):
+
+# Date API views
+class getDates(generics.ListAPIView):
     queryset = Date.objects.all()
     serializer_class = DateSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
-class DateRetrieveView(generics.RetrieveAPIView):
+class getDate(generics.RetrieveAPIView):
     queryset = Date.objects.all()
     serializer_class = DateSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'id'
 
 
-class JobListView(generics.ListAPIView):
+# Get on specific Date API views
+class getJobsOnDate(generics.ListAPIView):
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        request_date = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
+        return Job.objects.filter(due_date__date=request_date)
+
+
+class getEventsOnDate(generics.ListAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        request_date = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
+        return Event.objects.filter(due_dates__date=request_date)
+
+
+# Get from (future) specific Date API views
+class getJobsFromDate(generics.ListAPIView):
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        request_date_from = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
+        return Job.objects.filter(due_date__date__gte=request_date_from)
+
+
+class getEventsFromDate(generics.ListAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        request_date_from = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
+        return Event.objects.filter(due_dates__date__gte=request_date_from)
+
+
+# Job API views
+class getJobs(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
-class JobRetrieveView(generics.RetrieveAPIView):
+class getJob(generics.RetrieveAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'id'
 
 
-class EventListView(generics.ListAPIView):
+# Event API views
+class getEvents(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
-class EventRetrieveView(generics.RetrieveAPIView):
+class getEvent(generics.RetrieveAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

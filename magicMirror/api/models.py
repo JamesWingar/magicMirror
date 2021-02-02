@@ -36,7 +36,7 @@ class Date(models.Model):
 
 
 class Job(models.Model):
-    date_due = models.ForeignKey(Date, on_delete=models.CASCADE)
+    due_date = models.ForeignKey(Date, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     asignee = models.CharField(max_length=50)
     job_id = models.CharField(max_length=50)
@@ -46,7 +46,7 @@ class Job(models.Model):
 
 
 class Event(models.Model):
-    dates = models.ManyToManyField(Date)
+    due_dates = models.ManyToManyField(Date)
     end_date = models.DateField('end date')
     title = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
