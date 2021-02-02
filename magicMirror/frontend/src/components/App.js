@@ -1,15 +1,43 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+import Clock from "./ClockModule";
+import Todo from "./TodoModule";
 
-  render() {
-    return (<h1>Testing React Code</h1>);
-  }
+
+class App extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    // read in what apps are to be shown
+    // display apps in right of left
+
+    render() {
+        return (
+            <Container id="PageContainer"  fluid>
+                <Row>
+                    <Col>
+                        <h2>Left Column</h2>
+                        <Clock />
+                    </Col>
+                    <Col md={6}>
+                        <h2>Middle Column</h2>
+                    </Col>
+                    <Col>
+                        <h2>Right Column</h2>
+                        <Todo />
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
 }
 
-const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+
+export default App;
+
+render(<App />, document.getElementById("app"));
