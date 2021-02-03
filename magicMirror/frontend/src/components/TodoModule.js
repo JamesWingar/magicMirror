@@ -2,7 +2,7 @@ import React from "react";
 
 import ListGroup from "react-bootstrap/ListGroup";
 
-import API from "./API";
+import API from "../utility/API";
 
 
 class Todo extends React.Component{
@@ -41,7 +41,13 @@ class Todo extends React.Component{
             return <div> {results} </div>
         }
         if (results.length === 0) {
-            return <div> No Jobs </div>
+            return (
+                <ListGroup>
+                    <ListGroup.Item className='fadeIn'>
+                        <div> No Jobs </div>
+                    </ListGroup.Item>
+                </ListGroup>
+            )
         }
         return (
             <ListGroup>
