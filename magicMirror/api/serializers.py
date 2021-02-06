@@ -17,9 +17,9 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    due_dates = DateSerializer()
+    due_date = DateSerializer()
 
     class Meta:
         model = Event
-        fields = ('id', 'due_dates', 'end_date',
+        fields = ('id', 'due_date', 'end_date',
                   'title', 'location')

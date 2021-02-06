@@ -7,7 +7,7 @@ class Date(models.Model):
     date = models.DateField('date')
 
     def __str__(self):
-        return self.date.strftime("%d-%m-%Y")
+        return self.date.strftime("%Y-%m-%d")
 
     def date_delta(self):
         return self.date - datetime.date.today()
@@ -46,7 +46,7 @@ class Job(models.Model):
 
 
 class Event(models.Model):
-    due_dates = models.ManyToManyField(Date)
+    due_date = models.ForeignKey(Date, on_delete=models.CASCADE)
     end_date = models.DateField('end date')
     title = models.CharField(max_length=50)
     location = models.CharField(max_length=50)

@@ -29,7 +29,7 @@ class getJobsOnDate(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        request_date = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
+        request_date = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
         return Job.objects.filter(due_date__date=request_date)
 
 
@@ -38,8 +38,8 @@ class getEventsOnDate(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        request_date = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
-        return Event.objects.filter(due_dates__date=request_date)
+        request_date = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
+        return Event.objects.filter(due_date__date=request_date)
 
 
 # Get from (future) specific Date API views
@@ -48,7 +48,7 @@ class getJobsFromDate(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        request_date_from = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
+        request_date_from = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
         return Job.objects.filter(due_date__date__gte=request_date_from)
 
 
@@ -57,8 +57,8 @@ class getEventsFromDate(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        request_date_from = datetime.strptime(self.kwargs['date'], '%d-%m-%Y').date()
-        return Event.objects.filter(due_dates__date__gte=request_date_from)
+        request_date_from = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
+        return Event.objects.filter(due_date__date__gte=request_date_from)
 
 
 # Job API views
