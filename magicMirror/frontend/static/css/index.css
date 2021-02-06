@@ -20,6 +20,25 @@ body {
   background-color: #000;
 }
 
+.square {
+  border: 1px solid #666;
+  float: left;
+  font-size: 12px;
+  height: 180px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 50%;
+}
+
+.calendar-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+
 .list-group-item {
   background-color: #000;
 }

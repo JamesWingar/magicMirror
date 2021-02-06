@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Clock from "./ClockModule";
 import Todo from "./TodoModule";
 import Weather from "./WeatherModule";
+import Calendar from "./CalendarModule";
 
 
 class App extends Component {
@@ -16,22 +17,20 @@ class App extends Component {
 
     // read in what apps are to be shown
     // display apps in right or left
+    // <Weather />
 
     render() {
         return (
             <Container id="PageContainer"  fluid>
                 <Row>
                     <Col>
-                        <h2>Left Column</h2>
                         <Clock />
-                        <Weather />
                         <Todo />
                     </Col>
                     <Col md={6}>
-                        <h2>Middle Column</h2>
                     </Col>
                     <Col>
-                        <h2>Right Column</h2>
+                        <Calendar />
                     </Col>
                 </Row>
             </Container>
