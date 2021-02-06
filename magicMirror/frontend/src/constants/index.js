@@ -1,3 +1,7 @@
+// Backend API
+export const API_BASE_URL = "http://192.168.1.11:8000/api/";
+
+// Weather API
 export const WEATHER_API = 'https://api.openweathermap.org/data/2.5/';
 export const WEATHER_API_CITY = 'Cambridge,uk';
 export const WEATHER_API_KEY = '3c11533ea19fd775b9d59d0cf16089c5';
@@ -12,3 +16,6 @@ export const WEATHER_ICON = {
         '13d': 'Snow','13n': 'Snow',
         '50d': 'Haze','50n': 'Haze'
 };
+
+// Notes API
+

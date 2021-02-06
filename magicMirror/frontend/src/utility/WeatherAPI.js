@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { WEATHER_API, WEATHER_API_CITY, WEATHER_API_KEY } from "../constants/index"
+import { WEATHER_API, WEATHER_API_CITY, WEATHER_API_KEY } from "../constants/"
 
 class weatherService {
 

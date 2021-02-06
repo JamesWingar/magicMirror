@@ -1,7 +1,7 @@
 import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import WeatherAPI from "../utility/WeatherAPI";
-import { WEATHER_ICON } from "../constants/index";
+import { WEATHER_ICON } from "../constants/";
 
 class Weather extends React.Component{
     constructor() {

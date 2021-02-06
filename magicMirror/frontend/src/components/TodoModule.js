@@ -13,23 +13,15 @@ class Todo extends React.Component{
             jobsToday: [],
             jobsTomorrow: [],
         };
-        API.getJobsOnDate(moment().format('D-M-Y'))
-            .then((response) => {
-                this.setState({ jobsToday: response.data })
-            })
-        API.getJobsOnDate(moment().add(1, 'days').format('D-M-Y'))
-            .then((response) => {
-                this.setState({ jobsTomorrow: response.data })
-            })
     }
 
     componentDidMount() {
         setInterval(()=>{
-            API.getJobsOnDate(moment().format('D-M-Y'))
+            API.getJobsOnDate(moment().format('Y-MM-DD'))
                 .then((response) => {
                     this.setState({ jobsToday: response.data })
                 })
-            API.getJobsOnDate(moment().add(1, 'days').format('D-M-Y'))
+            API.getJobsOnDate(moment().add(1, 'days').format('Y-MM-D'))
                 .then((response) => {
                     this.setState({ jobsTomorrow: response.data })
                 })
