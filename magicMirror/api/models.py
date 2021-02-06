@@ -1,10 +1,11 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 import datetime
 
 
 class Date(models.Model):
-    date = models.DateField('date')
+    date = models.DateField('date', unique=True, default=datetime.date.today)
 
     def __str__(self):
         return self.date.strftime("%Y-%m-%d")
@@ -46,8 +47,10 @@ class Job(models.Model):
 
 
 class Event(models.Model):
-    due_date = models.ForeignKey(Date, on_delete=models.CASCADE)
-    end_date = models.DateField('end date')
+    start_date = models.ForeignKey(Date, on_delete=models.CASCADE)
+    start_time = models.CharField(max_length=5)
+    length = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(1000)])
+    end_date = models.DateField('end date', default=datetime.date.today)
     title = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
     event_id = models.CharField(max_length=50)

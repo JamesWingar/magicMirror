@@ -39,7 +39,7 @@ class getEventsOnDate(generics.ListAPIView):
 
     def get_queryset(self):
         request_date = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
-        return Event.objects.filter(due_date__date=request_date)
+        return Event.objects.filter(start_date__date=request_date)
 
 
 # Get from (future) specific Date API views
@@ -58,7 +58,7 @@ class getEventsFromDate(generics.ListAPIView):
 
     def get_queryset(self):
         request_date_from = datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
-        return Event.objects.filter(due_date__date__gte=request_date_from)
+        return Event.objects.filter(start_date__date__gte=request_date_from)
 
 
 # Job API views

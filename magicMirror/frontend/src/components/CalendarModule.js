@@ -12,7 +12,7 @@ class Calendar extends React.Component{
         super();
         this.state = {
             visible: true,
-            start_date: '',
+            calendar_start_date: '',
             dates: [],
             events: {},
         };
@@ -44,22 +44,23 @@ class Calendar extends React.Component{
         this.setState({
             dates: Object.keys(events),
             events: events,
-            start_date: moment().subtract(delta_days - 1, 'days').format('Y-MM-DD'),
+            calendar_start_date: moment().subtract(delta_days - 1, 'days').format('Y-MM-DD'),
         });
     }
 
     async getEvents() {
-        await API.getEventsFromDate(this.state.start_date).then((response) => {
+        await API.getEventsFromDate(this.state.calendar_start_date).then((response) => {
 
             // build reponse into event format
             var response_data = this.state.dates.reduce((acc,curr)=> (acc[curr]={},acc),{});
             for (const key in response.data) {
                 var data = response.data[key];
-                if (response_data.hasOwnProperty(data.due_date.date)) {
-                    response_data.[data.due_date.date].[data.id] = {
-                        due_date: data.due_date.date,
+                if (response_data.hasOwnProperty(data.start_date.date)) {
+                    response_data.[data.start_date.date].[data.id] = {
+                        start_date: data.start_date.date,
+                        start_time: data.start_time,
+                        length: data.length,
                         end_date: data.end_date,
-                        location: data.location,
                         title: data.title
                     }
                 }
@@ -85,8 +86,6 @@ class Calendar extends React.Component{
 
         var squareStyle = {
             fontSize: 20,
-            textAlign: 'right',
-            paddingRight: 10,
         };
 
         var dateStyle = {
@@ -99,16 +98,15 @@ class Calendar extends React.Component{
 
         };
 
-
-
         return (
             <div className="square">
                 <div style={dateStyle}>{moment(date).format('DD')}</div>
                 {
                     Object.keys(vals).map((id, index) => (
-                        <p> {vals[id].due_date},
+                        <p> {vals[id].start_date},
+                            {vals[id].start_time},
+                            {vals[id].length},
                             {vals[id].end_date},
-                            {vals[id].location},
                             {vals[id].title} </p>
                     ))
                 }
