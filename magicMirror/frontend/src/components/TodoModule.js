@@ -1,6 +1,8 @@
 import React from "react";
 
 import ListGroup from "react-bootstrap/ListGroup";
+import Fade from 'react-reveal/Fade';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 import API from "../utility/API";
 
@@ -8,49 +10,63 @@ import API from "../utility/API";
 class Todo extends React.Component{
     constructor() {
         super();
+        this.groupProps = {
+            appear: true,
+            enter: true,
+            exit: true,
+        };
         this.state = {
             visible: true,
             jobsToday: [],
             jobsTomorrow: [],
         };
+        this.getJobs();
     }
 
     componentDidMount() {
         setInterval(()=>{
-            API.getJobsOnDate(moment().format('Y-MM-DD'))
-                .then((response) => {
-                    this.setState({ jobsToday: response.data })
-                })
-            API.getJobsOnDate(moment().add(1, 'days').format('Y-MM-D'))
-                .then((response) => {
-                    this.setState({ jobsTomorrow: response.data })
-                })
+            this.getJobs()
         },10000)
     }
 
-    getJobs(results) {
-        if (results == "Error") {
-            return <div> {results} </div>
-        }
-        if (results.length === 0) {
+    getJobs() {
+        API.getJobsOnDate(moment().format('Y-MM-DD'))
+            .then((response) => {
+                this.setState({ jobsToday: response.data })
+            })
+        API.getJobsOnDate(moment().add(1, 'days').format('Y-MM-D'))
+            .then((response) => {
+                this.setState({ jobsTomorrow: response.data })
+             })
+    }
+
+    renderJobs(jobs) {
+
+        if (jobs.length === 0) {
             return (
                 <ListGroup>
-                    <ListGroup.Item className='fadeIn'>
-                        <div> No Jobs </div>
-                    </ListGroup.Item>
+                    <Fade collapse bottom>
+                        <ListGroup.Item>
+                            <div> No Jobs </div>
+                        </ListGroup.Item>
+                    </Fade>
                 </ListGroup>
             )
         }
+
         return (
             <ListGroup>
-            {
-                results.map(job => (
-                    <ListGroup.Item className='fadeIn'>
-                        <div>Job: {job.title}</div>
-                        <div>Who: {job.asignee}</div>
-                    </ListGroup.Item>
-                ))
-            }
+                <TransitionGroup {...this.groupProps}>
+                {
+                    jobs.map(job => (
+                        <Fade key={job.id} collapse bottom>
+                            <ListGroup.Item>
+                                <div>Job: {job.title} ({job.asignee})</div>
+                            </ListGroup.Item>
+                        </Fade>
+                    ))
+                }
+                </TransitionGroup>
             </ListGroup>
         );
     }
@@ -62,13 +78,27 @@ class Todo extends React.Component{
             padding: "10px",
         }
 
+        const todayStyle = {
+            fontSize: 20,
+        }
+
+        const tomorrowStyle = {
+            fontSize: 15,
+        }
+
         return (
-            <div id="todo" className={this.state.visible?'fadeIn':'fadeOut'} style={jobStyle}>
-                <h1 id="today">Today</h1>
-                    {this.getJobs(this.state.jobsToday)}
-                <h2 id="tomorrow">Tomorrow</h2>
-                    {this.getJobs(this.state.jobsTomorrow)}
-            </div>
+            <Fade collapse bottom>
+                <div id="todo" className={this.state.visible?'fadeIn':'fadeOut'} style={jobStyle}>
+                    <div className="title">Today</div>
+                        <div style={todayStyle}>
+                            {this.renderJobs(this.state.jobsToday)}
+                        </div>
+                    <div className="subtitle">Tomorrow</div>
+                        <div style={tomorrowStyle}>
+                            {this.renderJobs(this.state.jobsTomorrow)}
+                        </div>
+                </div>
+            </Fade>
         );
     }
 }

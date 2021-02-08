@@ -25,6 +25,7 @@ class App extends Component {
                 <Row>
                     <Col>
                         <Clock />
+                        <Weather />
                         <Todo />
                     </Col>
                     <Col md={6}>

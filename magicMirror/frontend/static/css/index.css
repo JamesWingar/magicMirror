@@ -21,10 +21,9 @@ body {
 }
 
 .square {
-  border: 1px solid #666;
   float: left;
   font-size: 12px;
-  height: 180px;
+  height: 170px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
@@ -38,6 +37,18 @@ body {
   display: table;
 }
 
+
+.title {
+  font-size: 3em;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.subtitle {
+  font-size: 2em;
+  text-align: center;
+  margin-top: 10px;
+} 
 
 .list-group-item {
   background-color: #000;

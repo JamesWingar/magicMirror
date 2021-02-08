@@ -21,7 +21,7 @@ class Calendar extends React.Component{
 
     getDates() {
         var events = this.state.events
-        var delta_days = moment().format('e');
+        var delta_days = moment().format('E');
 
         var prev_date = moment().subtract(delta_days, 'days').format('Y-MM-DD');
         if (events.hasOwnProperty(prev_date)) {
@@ -85,8 +85,12 @@ class Calendar extends React.Component{
         const vals = this.state.events.[date];
 
         var squareStyle = {
-            fontSize: 20,
+            border: '1px solid #666',
         };
+
+        if (date == moment().format('Y-MM-DD')) {
+            squareStyle.border = '3px solid #666';
+        }
 
         var dateStyle = {
             fontSize: 20,
@@ -99,15 +103,19 @@ class Calendar extends React.Component{
         };
 
         return (
-            <div className="square">
+
+            <div className="square" style={squareStyle}>
                 <div style={dateStyle}>{moment(date).format('DD')}</div>
                 {
+                // EDIT DATA INSIDE TO FADE IN AND OUT WITH NEW EVENTS
                     Object.keys(vals).map((id, index) => (
-                        <p> {vals[id].start_date},
+                        // TODO EDIT TO MAKE CLEAN LOOKING
+                        <div style={eventStyle}> 
+                            {vals[id].start_date},
                             {vals[id].start_time},
                             {vals[id].length},
                             {vals[id].end_date},
-                            {vals[id].title} </p>
+                            {vals[id].title} </div>
                     ))
                 }
             </div>
@@ -160,7 +168,7 @@ class Calendar extends React.Component{
         setInterval(()=>{
             this.getDates();
             this.getEvents();
-        },15000)
+        },10000)
         // CALENDAR API CALL
     }
 
@@ -173,7 +181,7 @@ class Calendar extends React.Component{
 
         return (
             <div id="calendar" className={this.state.visible?'fadeIn':'fadeOut'} style={calendarStyle}>
-                <h1 id="title">Calendar</h1>
+                <div className="title">Calendar</div>
                     {this.createCalendar()}
             </div>
         );
