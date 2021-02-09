@@ -29,7 +29,16 @@ class Todo extends React.Component{
         },10000)
     }
 
-    getJobs() {
+    async getJobs() {
+
+        const jobsToday = await API.getJobsOnDate(moment().format('Y-MM-DD'));
+        const jobsTomorrow = await API.getJobsOnDate(moment().add(1, 'days').format('Y-MM-D'));
+
+        this.setState({
+            jobsToday: jobsToday.data,
+            jobsTomorrow: jobsTomorrow.data
+        })
+        /*
         API.getJobsOnDate(moment().format('Y-MM-DD'))
             .then((response) => {
                 this.setState({ jobsToday: response.data })
@@ -38,6 +47,7 @@ class Todo extends React.Component{
             .then((response) => {
                 this.setState({ jobsTomorrow: response.data })
              })
+        */
     }
 
     renderJobs(jobs) {
@@ -73,8 +83,8 @@ class Todo extends React.Component{
 
     render() {
         const jobStyle = {
+            marginTop: "20px",
             textAlign: 'left',
-            color: '#fff',
             padding: "10px",
         }
 
@@ -87,18 +97,16 @@ class Todo extends React.Component{
         }
 
         return (
-            <Fade collapse bottom>
-                <div id="todo" className={this.state.visible?'fadeIn':'fadeOut'} style={jobStyle}>
-                    <div className="title">Today</div>
-                        <div style={todayStyle}>
-                            {this.renderJobs(this.state.jobsToday)}
-                        </div>
-                    <div className="subtitle">Tomorrow</div>
-                        <div style={tomorrowStyle}>
-                            {this.renderJobs(this.state.jobsTomorrow)}
-                        </div>
-                </div>
-            </Fade>
+            <div id="todo" className={this.state.visible?'fadeIn':'fadeOut'} style={jobStyle}>
+                <div className="title">Today</div>
+                    <div style={todayStyle}>
+                        {this.renderJobs(this.state.jobsToday)}
+                    </div>
+                <div className="subtitle">Tomorrow</div>
+                    <div style={tomorrowStyle}>
+                        {this.renderJobs(this.state.jobsTomorrow)}
+                    </div>
+            </div>
         );
     }
 }

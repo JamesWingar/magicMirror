@@ -17,7 +17,8 @@ class App extends Component {
 
     // read in what apps are to be shown
     // display apps in right or left
-    // <Weather />
+
+    // fade in and out the apps that are wanted and not
 
     render() {
         return (

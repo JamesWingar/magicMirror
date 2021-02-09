@@ -6,6 +6,7 @@ class Time extends React.Component{
     constructor() {
         super();
         this.state = {
+            visible: true,
             time: moment().format('HH:mm'),
             addons: moment().format('ss'),
             date: moment().format('ddd, DD MMM YYYY'),
@@ -26,14 +27,12 @@ class Time extends React.Component{
     render() {
         const clockStyle = {
             textAlign: "center",
-            color: '#fff',
             marginTop: "20px",
         }
 
         const timeStyle = {
             fontSize: "6em",
             display: "inline-block",
-            fontFamily: "'Roboto', sans-serif",
             lineHeight: "1em",
             height: "1em",
         }
@@ -41,7 +40,6 @@ class Time extends React.Component{
         const addonStyle = {
             fontSize: "2em",
             display: "inline-block",
-            fontFamily: "'Roboto', sans-serif",
             lineHeight: "1em",
             height: "1em",
             verticalAlign: "sub",
@@ -49,21 +47,18 @@ class Time extends React.Component{
 
         const dateStyle = {
             fontSize: "1.8em",
-            fontFamily: "'Roboto', sans-serif",
             lineHeight: "0.9em",
             height: "0.9em",
         }
 
         return (
-            <Fade collapse bottom>
-                <div id="datetime" style={clockStyle}>
-                    <div className="time">
-                        <div style={timeStyle}>{this.state.time}</div>
-                        <div style={addonStyle}>{this.state.addons}</div>
-                    </div>
-                    <div style={dateStyle}>{this.state.date}</div>
+            <div id="clock" className={this.state.visible?'fadeIn':'fadeOut'} style={clockStyle}>
+                <div className="time">
+                    <div style={timeStyle}>{this.state.time}</div>
+                    <div style={addonStyle}>{this.state.addons}</div>
                 </div>
-            </Fade>
+                <div style={dateStyle}>{this.state.date}</div>
+            </div>
         );
     }
 }
