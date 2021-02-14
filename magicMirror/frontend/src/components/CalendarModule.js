@@ -1,95 +1,102 @@
 import React from "react";
 
+import Fade from 'react-reveal/Fade';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+
 import API from "../utility/API";
 
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 
 class Calendar extends React.Component{
     constructor() {
         super();
+        this.groupProps = {
+            appear: true,
+            enter: true,
+            exit: true,
+        };
         this.state = {
             visible: true,
-            calendar_start_date: '',
+            start_date: moment().subtract(moment().format('E') - 1, 'days').format('Y-MM-DD'),
+            delta_days: moment().format('E'),
             dates: [],
             events: {},
         };
-        this.changeEvent = this.changeEvent.bind(this);
+        this.getEvents();
     }
 
-    getDates() {
-        var events = this.state.events
+    componentDidMount() {
+        setInterval(()=>{
+            this.getEvents();
+        },10000)
+    }
+
+    updateDates() {
+        const dates = this.state.dates;
+        const events = this.state.events;
         var delta_days = moment().format('E');
-
-        var prev_date = moment().subtract(delta_days, 'days').format('Y-MM-DD');
-        if (events.hasOwnProperty(prev_date)) {
-            delete events.prev_date;
-        }
-
-        var iter_date = moment().subtract(delta_days, 'days');
-        for(var i = 0; i < 14; i++) {
-            var new_date = iter_date.add(1, 'day').format('Y-MM-DD');
-            if (!events.hasOwnProperty(new_date)) {
-                events.[new_date] = {};
+        var start_date = moment().subtract(delta_days - 1, 'days');
+        // add new dates
+        const new_date = moment(start_date);
+        for (var i = 0; i < 14; i++) {
+            const new_date_str = new_date.format('Y-MM-DD');
+            if (!dates.includes(new_date_str)){
+                dates.push(new_date_str);
             }
+            if (!events.hasOwnProperty(new_date_str)) {
+                events.[new_date_str] = [];
+            }
+            new_date.add(1, 'day');
         }
-
-        if (Object.keys(events).length !== 14) {
-            console.log("There are not 14 dates in Calendar");
-            return "Error";
+        // remove old days
+        if (Object.keys(events).length > 14) {
+            delete events.[dates.shift()];
         }
 
         this.setState({
-            dates: Object.keys(events),
+            dates: dates,
             events: events,
-            calendar_start_date: moment().subtract(delta_days - 1, 'days').format('Y-MM-DD'),
+            start_date: start_date.format('Y-MM-DD'),
+            delta_days: delta_days,
         });
     }
 
     async getEvents() {
-        await API.getEventsFromDate(this.state.calendar_start_date).then((response) => {
+        await this.updateDates();
+        const response = await API.getEventsFromDate(this.state.start_date)
 
-            // build reponse into event format
-            var response_data = this.state.dates.reduce((acc,curr)=> (acc[curr]={},acc),{});
-            for (const key in response.data) {
-                var data = response.data[key];
-                if (response_data.hasOwnProperty(data.start_date.date)) {
-                    response_data.[data.start_date.date].[data.id] = {
-                        start_date: data.start_date.date,
-                        start_time: data.start_time,
-                        length: data.length,
-                        end_date: data.end_date,
-                        title: data.title
-                    }
-                }
+        // build reponse into event format
+        var response_data = this.state.dates.reduce((acc,curr)=> (acc[curr]=[],acc),{});
+        for (const key in response.data) {
+            var event = response.data[key];
+            if (response_data.hasOwnProperty(event.start_date.date)) {
+                response_data.[event.start_date.date].push({
+                    id: event.id,
+                    start_date: event.start_date.date,
+                    start_time: event.start_time,
+                    length: event.length,
+                    end_date: event.end_date,
+                    title: event.title
+                })
             }
-            // dates -> event_id -> (due,end,local,title,time,length)
+        }
 
-            for (const key in this.state.events) {
-                if (Object.keys(this.state.events.[key]) != Object.keys(response_data.[key])) {
-                    this.changeEvent({key: key, response: response_data.[key]});
-                }
+        // find changes in reponse and replace with events
+        for (const key in this.state.events) {
+            if (this.state.events.[key] != response_data.[key]) {
+                // this.changeEvent({key: key, response: response_data.[key]});
+                var events = this.state.events;
+                events.[key] = response_data.[key];
+                this.setState({events: events});
             }
-        })
-    }
-
-    changeEvent(props) {
-        var events = this.state.events;
-        events.[props.key] = props.response;
-        this.setState({events: events});
+        }
     }
 
     renderDateSquare(date) {
-        const vals = this.state.events.[date];
-
-        var squareStyle = {
-            border: '1px solid #666',
-        };
-
+        if (date == null) { return <div className="square" style={squareStyle}></div>} 
         if (date == moment().format('Y-MM-DD')) {
-            squareStyle.border = '3px solid #666';
+            var squareStyle = { border: '3px solid #fff' };
         }
 
         var dateStyle = {
@@ -99,77 +106,62 @@ class Calendar extends React.Component{
         };
 
         var eventStyle = {
-
+            width: '90%',
+            margin: '0 auto',
         };
 
         return (
 
             <div className="square" style={squareStyle}>
                 <div style={dateStyle}>{moment(date).format('DD')}</div>
+                <TransitionGroup {...this.groupProps}>
                 {
-                // EDIT DATA INSIDE TO FADE IN AND OUT WITH NEW EVENTS
-                    Object.keys(vals).map((id, index) => (
-                        // TODO EDIT TO MAKE CLEAN LOOKING
-                        <div style={eventStyle}> 
-                            {vals[id].start_date},
-                            {vals[id].start_time},
-                            {vals[id].length},
-                            {vals[id].end_date},
-                            {vals[id].title} </div>
+                    this.state.events.[date].map(event => (
+                        <Fade key={event.id} collapse bottom>
+                            <div className="card" style={eventStyle}> 
+                                {event.start_time} - {event.title}
+                            </div>
+                        </Fade>
                     ))
                 }
+                </TransitionGroup>
             </div>
         );
     }
 
-    createCalendar() {
-        if (this.state.dates.length != 14) {
-            return <div> No Events </div>
-        }
-        const dates = this.state.dates;
-
+    renderCalendar() {
         return (
             <Container id="calendarObject" fluid>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[0])}
-                    {this.renderDateSquare(dates[7])}
+                    {this.renderDateSquare(this.state.dates[0])}
+                    {this.renderDateSquare(this.state.dates[7])}
                 </div>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[1])}
-                    {this.renderDateSquare(dates[8])}
+                    {this.renderDateSquare(this.state.dates[1])}
+                    {this.renderDateSquare(this.state.dates[8])}
                 </div>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[2])}
-                    {this.renderDateSquare(dates[9])}
+                    {this.renderDateSquare(this.state.dates[2])}
+                    {this.renderDateSquare(this.state.dates[9])}
                 </div>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[3])}
-                    {this.renderDateSquare(dates[10])}
+                    {this.renderDateSquare(this.state.dates[3])}
+                    {this.renderDateSquare(this.state.dates[10])}
                 </div>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[4])}
-                    {this.renderDateSquare(dates[11])}
+                    {this.renderDateSquare(this.state.dates[4])}
+                    {this.renderDateSquare(this.state.dates[11])}
                 </div>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[5])}
-                    {this.renderDateSquare(dates[12])}
+                    {this.renderDateSquare(this.state.dates[5])}
+                    {this.renderDateSquare(this.state.dates[12])}
                 </div>
                 <div className="calendar-row">
-                    {this.renderDateSquare(dates[6])}
-                    {this.renderDateSquare(dates[13])}
+                    {this.renderDateSquare(this.state.dates[6])}
+                    {this.renderDateSquare(this.state.dates[13])}
                 </div>
             </Container>
         )
-    }
-
-
-
-    componentDidMount() {
-        setInterval(()=>{
-            this.getDates();
-            this.getEvents();
-        },10000)
-        // CALENDAR API CALL
     }
 
     render() {
@@ -182,7 +174,7 @@ class Calendar extends React.Component{
         return (
             <div id="calendar" className={this.state.visible?'fadeIn':'fadeOut'} style={calendarStyle}>
                 <div className="title">Calendar</div>
-                    {this.createCalendar()}
+                    {this.renderCalendar()}
             </div>
         );
     }

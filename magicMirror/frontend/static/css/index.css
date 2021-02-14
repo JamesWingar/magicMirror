@@ -59,6 +59,8 @@ body {
   padding: 0;
   text-align: center;
   width: 50%;
+  border: 1px solid #aaa;
+  border-radius: 5px;
 }
 
 .calendar-row:after {
@@ -67,6 +69,7 @@ body {
   display: table;
 }
 
-.list-group-item {
+.card {
   background-color: #000;
+  border: 1px solid #aaa; 
 }
