@@ -1,6 +1,5 @@
 import React from "react";
 
-import ListGroup from "react-bootstrap/ListGroup";
 import Fade from 'react-reveal/Fade';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 
@@ -38,46 +37,32 @@ class Todo extends React.Component{
             jobsToday: jobsToday.data,
             jobsTomorrow: jobsTomorrow.data
         })
-        /*
-        API.getJobsOnDate(moment().format('Y-MM-DD'))
-            .then((response) => {
-                this.setState({ jobsToday: response.data })
-            })
-        API.getJobsOnDate(moment().add(1, 'days').format('Y-MM-D'))
-            .then((response) => {
-                this.setState({ jobsTomorrow: response.data })
-             })
-        */
     }
 
     renderJobs(jobs) {
 
         if (jobs.length === 0) {
             return (
-                <ListGroup>
-                    <Fade collapse bottom>
-                        <ListGroup.Item>
-                            <div> No Jobs </div>
-                        </ListGroup.Item>
-                    </Fade>
-                </ListGroup>
+                <Fade collapse bottom>
+                    <div className="card">
+                        <div className="card-body"> No Jobs </div>  
+                    </div>
+                </Fade>
             )
         }
 
         return (
-            <ListGroup>
                 <TransitionGroup {...this.groupProps}>
                 {
                     jobs.map(job => (
                         <Fade key={job.id} collapse bottom>
-                            <ListGroup.Item>
-                                <div>Job: {job.title} ({job.asignee})</div>
-                            </ListGroup.Item>
+                            <div className="card">
+                                <div className="card-body">Job: {job.title} ({job.asignee})</div>
+                            </div>
                         </Fade>
                     ))
                 }
                 </TransitionGroup>
-            </ListGroup>
         );
     }
 
