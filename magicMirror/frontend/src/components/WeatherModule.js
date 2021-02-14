@@ -34,15 +34,6 @@ class Weather extends React.Component{
             weatherCurrent: currentWeather.data,
             weatherForecast: forecastWeather.data.list.[index]
         })
-        /*
-        WeatherAPI.getWeatherCurrent().then((response) => {
-                this.setState({ weatherCurrent: response.data })
-            })
-        WeatherAPI.getWeatherForecast().then((response) => {
-                const index = (moment().hour()%3 < 3) ? 0 : 1
-                this.setState({ weatherForecast: response.data.list.[index] })
-            })
-        */
     }
 
     renderWeather(result) {
