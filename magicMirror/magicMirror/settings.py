@@ -28,7 +28,6 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.11']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'rest_framework',
     'corsheaders',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'OPTIONS': {
+            'timeout': 20,
+        }
+    },
 }
 
 
