@@ -13,7 +13,7 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
-        fields = ('id', 'due_date', 'title', 'asignee')
+        fields = ('id', 'due_date', 'title', 'assignee')
 
 
 class EventSerializer(serializers.ModelSerializer):

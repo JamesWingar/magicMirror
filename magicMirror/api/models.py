@@ -39,7 +39,7 @@ class Date(models.Model):
 class Job(models.Model):
     due_date = models.ForeignKey(Date, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    asignee = models.CharField(max_length=50)
+    assignee = models.CharField(max_length=50)
     job_id = models.CharField(max_length=50)
 
     def __str__(self):
@@ -48,11 +48,10 @@ class Job(models.Model):
 
 class Event(models.Model):
     start_date = models.ForeignKey(Date, on_delete=models.CASCADE)
-    start_time = models.CharField(max_length=5)
+    start_time = models.CharField(max_length=7)
     length = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(1000)])
     end_date = models.DateField('end date', default=datetime.date.today)
     title = models.CharField(max_length=50)
-    location = models.CharField(max_length=50)
     event_id = models.CharField(max_length=50)
 
     def __str__(self):
