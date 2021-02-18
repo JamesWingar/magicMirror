@@ -50,7 +50,7 @@ class Calendar extends React.Component{
             new_date.add(1, 'day');
         }
         // remove old days
-        if (Object.keys(events).length > 14) {
+        while(Object.keys(events).length > 14) {
             delete events.[dates.shift()];
         }
 

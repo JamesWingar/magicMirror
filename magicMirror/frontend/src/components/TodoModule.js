@@ -57,7 +57,7 @@ class Todo extends React.Component{
                     jobs.map(job => (
                         <Fade key={job.id} collapse bottom>
                             <div className="card">
-                                <div className="card-body">Job: {job.title} ({job.asignee})</div>
+                                <div className="card-body">{job.title} ({job.assignee})</div>
                             </div>
                         </Fade>
                     ))
