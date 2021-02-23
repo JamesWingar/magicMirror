@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+import pathlib
+import socket
+import yaml
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -24,7 +26,19 @@ SECRET_KEY = 'g69&4%j#@^v&n(q&&p^0c&m&o3da4q1%#z)f3%n2vgig3h*xw3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.11']
+CONFIG_PATH = pathlib.Path.cwd() / 'config' / 'config.yml'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+host_ip = socket.gethostbyname(socket.gethostname())
+ALLOWED_HOSTS.append(socket.gethostbyname(host_ip))
+
+with open(CONFIG_PATH, "r") as ymlfile:
+    config = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
+config['host']['ip'] = host_ip
+
+with open(CONFIG_PATH, "w") as ymlfile:
+    config = yaml.dump(config, ymlfile)
 
 
 # Application definition
