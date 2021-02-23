@@ -35,6 +35,7 @@ def update_models_date():
     Date.objects.filter(date__lt=first_day).delete()
 
     assert (len(Date.objects.all()) == 14), "Too many or Too few date objects."
+    logger.info("Ran scheduled [update dates]")
 
 
 """

@@ -1,13 +1,10 @@
 #Example configuration file
 #Randomly generated data below
 
-weather:
-    city: London,uk
-    key: vmsrdiofje34956834fn49runf332349udgdw
-
 calendar:
     id: 1309uv4nut9e84eriuefg48934@group.calendar.google.com
-
+host:
+  ip: 192.168.1.0
 job:
     key: 73f8646b0cff5cd869e6b2f4eb02179ab5196353
     project_id: 3456356346
@@ -15,3 +12,6 @@ job:
       42352436: seaborn
       65765744: zieglar
       13495864: barlet
+weather:
+    city: London,uk
+    key: vmsrdiofje34956834fn49runf332349udgdw
