@@ -15,17 +15,16 @@ class Weather extends React.Component{
             weatherCurrent: [],
             weatherForecast: [],
         }
-        this.getWeather();
     }
 
     componentDidMount() {
+        this.getWeather();
         setInterval(()=>{
             this.getWeather();
         },360000)
     }
 
     async getWeather() {
-        
         const currentWeather = await WeatherAPI.getWeatherCurrent();
         const forecastWeather = await WeatherAPI.getWeatherForecast();
 
@@ -38,7 +37,7 @@ class Weather extends React.Component{
 
     renderWeather(result) {
         if (result.length === 0) {
-            return <div> No weather data </div>
+            return
         }
 
         var weather = {
@@ -48,55 +47,20 @@ class Weather extends React.Component{
             time: (result.['dt_txt']  == null) ? "now" : moment(result.['dt_txt']).format('HH:mm'),
         }
 
-        const weatherStyle = {
-            flexBasis: '100%',
-            display: 'grid',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gridTemplateColumns: 'auto auto',
-            gridGap: (weather.time == "now") ? '30px' : '20px',
-        }
-
-        const imageStyle = {
-            width: (weather.time == "now") ? '100px' : '70px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-        }
-
-        const tempStyle = {
-            fontSize: (weather.time == "now") ? '80px' : '40px',
-            display: 'block',
-            fontWeight: 400,
-            textAlign: 'center',
-        }
-
-        const timeStyle = {
-            fontSize: '20px',
-            display: 'block',
-            fontWeight: 400,
-            textAlign: 'center',
-        }
-
-        const descriptionStyle = {
-            fontSize: '25px',
-            display: 'block',
-            fontWeight: 400,
-            textAlign: 'center',
-        }
+        const imageStyle = { width: (weather.time == "now") ? '100px' : '60px' }
+        const tempStyle = { fontSize: (weather.time == "now") ? '80px' : '40px' }
 
         const baseDetail = () => {
             if (weather.time == "now")
-                return <div style={descriptionStyle}>{weather.description}</div>
-
-            return <div style={timeStyle}>{weather.time}</div>
+                return <div class="description">{weather.description}</div>
+            return <div class="time">{weather.time}</div>
         }
 
         return (
-            <div style={weatherStyle}>
-                <img src={"../../static/images/" + WEATHER_ICON[weather.icon] + ".png"} style={imageStyle}/>
+            <div class="weather_time">
+                <img class="image" src={"../../static/images/" + WEATHER_ICON[weather.icon] + ".png"} style={imageStyle}/>
                 <div>
-                    <div style={tempStyle}>{weather.temp}°</div>
+                    <div class="temperature" style={tempStyle}>{weather.temp}°</div>
                     { baseDetail() }
                 </div>
             </div>
@@ -104,22 +68,10 @@ class Weather extends React.Component{
     }
 
     render() {
-
-        const weatherStyle = {
-            flexBasis: '100%',
-            display: 'grid',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gridTemplateColumns: 'auto auto',
-            gridGap: '30px',
-        }
-
         return (
             <div id="weather">
-                <div style={weatherStyle}>
-                    {this.renderWeather(this.state.weatherCurrent)}
-                    {this.renderWeather(this.state.weatherForecast)}
-                </div>
+                {this.renderWeather(this.state.weatherCurrent)}
+                {this.renderWeather(this.state.weatherForecast)}
             </div>
         );
     }

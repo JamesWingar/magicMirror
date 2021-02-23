@@ -1,12 +1,15 @@
+/* main styles */
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
+  background-color: #000;
 }
 
 #main {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
@@ -17,11 +20,12 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  background-color: #000;
   color: #fff;
   font-family: 'Montserrat', sans-serif;
 }
 
+
+/* common styles */
 .title {
   font-size: 40px;
   font-weight: 500;
@@ -36,21 +40,121 @@ body {
 } 
 
 .fadeOut{
-     opacity:0;
-     width:0;
-     height:0;
-     transition: width 0.5s 0.5s, height 0.5s 0.5s, opacity 0.5s;
+  opacity:0;
+  width:0;
+  height:0;
+  transition: width 0.5s 0.5s, height 0.5s 0.5s, opacity 0.5s;
 }
 
 .fadeIn{
-     opacity:1;
-     transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
+ opacity:1;
+ transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
+}
+
+.card {
+  background-color: #000;
+  border: 1px solid #aaa;
 }
 
 
+/* Clock styles */
+#clock {
+  text-align: center;
+  margin-top: 40px;
+}
+
+#clock .time {
+  font-size: 100px;
+  display: inline-block;
+  line-height: 60px;
+  /* height: 30px; */
+}
+
+#clock .seconds {
+  font-size: 30px;
+  display: inline-block;
+  vertical-align: sub;
+}
+
+#clock .date {
+  font-size: 30px;
+  line-height: 20px;
+}
+
+/* Weather styles */
+#weather {
+  align-items: center;
+  margin-top: 40px;
+  flex-basis: 100%;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: auto auto;
+  grid-gap: 20px;
+}
+
+#weather .weather_time {
+  flex-basis: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+}
+
+#weather .time {
+  font-size: 20px;
+  display: block;
+}
+
+#weather .description {
+  font-size: 25px;
+  display: block;
+}
+
+#weather .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#weather .temperature {
+    display: block;
+    font-weight: 400;
+    text-align: center;
+    line-height: 100%;
+}
 
 
-.square {
+/* Todo styles */
+#todo {
+  margin-top: 40px;
+}
+
+#todo .jobToday{
+  font-size: 22px;
+}
+
+#todo .jobTomorrow {
+  font-size: 15px;
+}
+
+/* Calendar styles */
+#calendar {
+  align-items: center;
+}
+
+#calendar .date {
+  font-size: 20px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+#calendar .event {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#calendar .square {
   float: left;
   font-size: 12px;
   height: 170px;
@@ -63,13 +167,8 @@ body {
   border-radius: 5px;
 }
 
-.calendar-row:after {
+#calendar .calendar-row:after {
   clear: both;
   content: "";
   display: table;
-}
-
-.card {
-  background-color: #000;
-  border: 1px solid #aaa; 
 }

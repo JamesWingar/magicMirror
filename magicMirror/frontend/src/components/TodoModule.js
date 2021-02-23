@@ -19,28 +19,27 @@ class Todo extends React.Component{
             jobsToday: [],
             jobsTomorrow: [],
         };
-        this.getJobs();
     }
 
     componentDidMount() {
+        this.getJobs();
         setInterval(()=>{
             this.getJobs()
         },10000)
     }
 
     async getJobs() {
-
+        // API calls to 
         const jobsToday = await API.getJobsOnDate(moment().format('Y-MM-DD'));
         const jobsTomorrow = await API.getJobsOnDate(moment().add(1, 'days').format('Y-MM-D'));
 
         this.setState({
             jobsToday: jobsToday.data,
             jobsTomorrow: jobsTomorrow.data
-        })
+        });
     }
 
     renderJobs(jobs) {
-
         if (jobs.length === 0) {
             return (
                 <Fade collapse bottom>
@@ -48,47 +47,33 @@ class Todo extends React.Component{
                         <div className="card-body"> No Jobs </div>  
                     </div>
                 </Fade>
-            )
+            );
         }
 
         return (
-                <TransitionGroup {...this.groupProps}>
-                {
-                    jobs.map(job => (
-                        <Fade key={job.id} collapse bottom>
-                            <div className="card">
-                                <div className="card-body">{job.title} ({job.assignee})</div>
-                            </div>
-                        </Fade>
-                    ))
-                }
-                </TransitionGroup>
+            <TransitionGroup {...this.groupProps}>
+            {
+                jobs.map(job => (
+                    <Fade key={job.id} collapse bottom>
+                        <div className="card">
+                            <div className="card-body">{job.title} ({job.assignee})</div>
+                        </div>
+                    </Fade>
+                ))
+            }
+            </TransitionGroup>
         );
     }
 
     render() {
-        const jobStyle = {
-            marginTop: "20px",
-            textAlign: 'left',
-            padding: "10px",
-        }
-
-        const todayStyle = {
-            fontSize: 20,
-        }
-
-        const tomorrowStyle = {
-            fontSize: 15,
-        }
-
         return (
-            <div id="todo" className={this.state.visible?'fadeIn':'fadeOut'} style={jobStyle}>
+            <div id="todo" className={this.state.visible?"fadeIn":"fadeOut"}>
                 <div className="title">Today</div>
-                    <div style={todayStyle}>
+                    <div className="jobToday">
                         {this.renderJobs(this.state.jobsToday)}
                     </div>
                 <div className="subtitle">Tomorrow</div>
-                    <div style={tomorrowStyle}>
+                    <div className="jobTomorrow">
                         {this.renderJobs(this.state.jobsTomorrow)}
                     </div>
             </div>
