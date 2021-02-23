@@ -9,13 +9,13 @@ from .views import (
 
 
 urlpatterns = [
-    path('job', getJobs.as_view(), name='job'),
+    path('jobs', getJobs.as_view(), name='jobs'),
     path('job/<int:id>', getJob.as_view(), name='job id'),
 
-    path('event', getEvents.as_view(), name='event'),
+    path('events', getEvents.as_view(), name='events'),
     path('event/<int:id>', getEvent.as_view(), name='event id'),
 
-    path('date', getDates.as_view(), name='date'),
+    path('dates', getDates.as_view(), name='dates'),
     path('date/<int:id>', getDate.as_view(), name='date id'),
 
     path('date/job/<slug:date>', getJobsOnDate.as_view(), name='jobs on date'),

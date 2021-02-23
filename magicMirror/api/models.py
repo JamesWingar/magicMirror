@@ -10,25 +10,6 @@ class Date(models.Model):
     def __str__(self):
         return self.date.strftime("%Y-%m-%d")
 
-    def date_delta(self):
-        return self.date - datetime.date.today()
-
-    def days_from(self):
-        delta = self.date - datetime.date.today()
-
-        if delta > datetime.timedelta(days=1):
-            string = self.date.strftime('%A') + ' in {} days'.format(delta.days)
-        elif delta > datetime.timedelta(days=0):
-            string = 'Tomorrow'
-        elif delta == datetime.timedelta(days=0):
-            string = 'Today'
-        elif delta > datetime.timedelta(days=-1):
-            string = 'Yesterday'
-        else:
-            string = '{} days ago'.format(abs(delta.days))
-
-        return string
-
     def get_jobs(self):
         return self.job_set.all()
 
