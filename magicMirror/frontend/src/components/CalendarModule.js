@@ -70,7 +70,10 @@ class Calendar extends React.Component{
 
         return (
             <div className="square" style={squareStyle}>
-                <div className="date">{moment(date).format('DD')}</div> 
+                <div className="square_date">
+                    <div className="day">{moment(date).format('ddd')}</div>
+                    <div className="date">{moment(date).format('DD')}</div> 
+                </div> 
                 <TransitionGroup {...this.groupProps}>
                 { //('ddd - DD')
                     this.state.events.[date].map(event => (

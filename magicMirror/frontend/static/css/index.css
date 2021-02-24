@@ -143,10 +143,20 @@ body {
   align-items: center;
 }
 
+#calendar .square_date {
+  text-align: right;
+}
+
+#calendar .day {
+  font-size: 15px;
+  padding-right: 10px;
+  display: inline;
+}
+
 #calendar .date {
   font-size: 20px;
-  text-align: right;
   padding-right: 10px;
+  display: inline;
 }
 
 #calendar .event {
