@@ -6,8 +6,8 @@ const yaml = require('js-yaml');
 const fs   = require('fs');
 
 try {
-  const config = yaml.load(fs.readFileSync('./../config/config.yml', 'utf8'));
-  host_ip = config.host.ip; // get IP address from config file
+  config = yaml.load(fs.readFileSync('./../config/config.yml', 'utf8'));
+  // host_ip = config.host.ip; // get IP address from config file
 } catch (e) {
   console.log(e);
 }
@@ -16,7 +16,13 @@ try {
 module.exports = {
   externals: {
       'Config': JSON.stringify({
-          HostIP: host_ip,
+          host: {
+            ip: config.host.ip,
+          },
+          weather: {
+            city: config.weather.city,
+            key: config.weather.key,
+          },
       })
   },
   entry: "./src/index.js",

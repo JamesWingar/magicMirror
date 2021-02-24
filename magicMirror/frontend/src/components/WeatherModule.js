@@ -21,7 +21,7 @@ class Weather extends React.Component{
         this.getWeather();
         setInterval(()=>{
             this.getWeather();
-        },360000)
+        },60000)
     }
 
     async getWeather() {

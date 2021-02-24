@@ -2,12 +2,12 @@
 var Config = require('Config')
 
 // Backend API
-export const API_BASE_URL = "http://" + Config.HostIP + ":8000/api/";
+export const API_BASE_URL = "http://" + Config.host.ip + ":8000/api/";
 
 // Weather API
 export const WEATHER_API = 'https://api.openweathermap.org/data/2.5/';
-export const WEATHER_API_CITY = 'Cambridge,uk';
-export const WEATHER_API_KEY = '3c11533ea19fd775b9d59d0cf16089c5';
+export const WEATHER_API_CITY = Config.weather.city;
+export const WEATHER_API_KEY = Config.weather.key;
 export const WEATHER_ICON = {
     '01d': 'Sun',
     '01n': 'Moon',
@@ -30,3 +30,4 @@ export const WEATHER_ICON = {
 };
 
 // Notes API
+// TODO
