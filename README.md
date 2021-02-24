@@ -82,7 +82,7 @@ weather:
 ```
 The Openweathermap api key must go under `weather` and the Google calendar id under `calendar` etc.
 
-## Starting magicMirror backend
+## Starting magicMirror
 ### Start django server
 *Open a commandline and change the directory to the `magicMirror` directory*
 ```python
@@ -92,7 +92,7 @@ python manager.py runserver 0:8000
 *Leave this commandline open*
 You can now access the magicMirror webApp from any device on the local network by navigating to the host ip.
 
-## Setup magicMirror
+## Setup a magicMirror
 ### Remove mouse
 *Open a second commandline, the following instructions are on a debian system (raspberry pi) to create a magic mirror*
 ```python
