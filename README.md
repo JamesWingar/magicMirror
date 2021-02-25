@@ -1,9 +1,9 @@
 # magicMirror
-Magic Mirror was developed as a full stack Modular software using Django framework backend and React frontend. Includes modules: time, weather, todo list and calendar, designed to be run on a local network for multiple devices to connect and display the UI within the home. Modules that can be configured with user specific accounts, in which the backend will control most of the API calls to the account (ie. Calendar and Todoist) which can be access via a REST API that the frontend utilises. Magic Mirror software that supports being hosted on windows and linux machines, but has mainly been tested and developed on Linux Mint and Raspberry Pi. This is intended to be developed into a controllable home system with an easy to access UI.
+magicMirror was developed as a full stack Modular software using Django framework backend and React frontend. Includes modules: time, weather, todo list and calendar, designed to be run on a local network for multiple devices to connect and display the UI within the home. Modules that can be configured with user specific accounts, in which the backend will control most of the API calls to the account (ie. Calendar and Todoist) which can be access via a REST API that the frontend utilises. magicMirror software supports being hosted on windows and linux machines, but has mainly been tested and developed on Linux Mint and Raspberry Pi. This is intended to be developed into a controllable home system with an easy to access UI, but at the moment can be displayed on a magic mirror and other devices but navigating to the host IP.
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/JamesWingar/magicMirror/blob/master/src/example_screenshot_2560_1440.png" width="1000">
+  <img src="https://github.com/JamesWingar/Mirror/blob/master/src/example_screenshot_2560_1440.png" width="1000">
 </p>
 
 ## Summary
@@ -27,13 +27,11 @@ The **To do list** module uses [Todoist api](https://todoist.com/) to get the li
 The calendar module uses [Google calendar](https://calendar.google.com/calendar/r) to keep track of events for the next two weeks and displays in a modern designed UI. The calendar tracks the current day with a highlighted box and updates the events within 20 seconds. The calendar requires a Google account with a set up calendar, the calendar id can be found on the settings of the calendar. The google account must be enabled as a service account and the credentials downloaded and added under the config directory.
 
 ## Install
-magicMirror software supports Python3.8+
-
 To install follow the instructions below:
 1. Open a command line tool (eg. Linux -> Terminal, Windows -> Powershell)
 2. Initial requirements, install the following:
 * [git](https://git-scm.com/downloads)
-* [python3](https://www.python.org/download/releases/3.0/)
+* [python3](https://www.python.org/download/releases/3.0/) (magicMirror supports Python3.8+)
 * [pip](https://pypi.org/project/pip/)
 4. Change directory to where you want the repository
 5. Clone the repository
@@ -92,7 +90,7 @@ python manager.py runserver 0:8000
 *Leave this commandline open*
 You can now access the magicMirror webApp from any device on the local network by navigating to the host ip.
 
-## Setup a magicMirror
+## Setup a magic mirror
 ### Remove mouse
 *Open a second commandline, the following instructions are on a debian system (raspberry pi) to create a magic mirror*
 ```python
