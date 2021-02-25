@@ -3,7 +3,7 @@ magicMirror was developed as a full stack Modular software using Django framewor
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/JamesWingar/Mirror/blob/master/src/example_screenshot_2560_1440.png" width="1000">
+  <img src="https://github.com/JamesWingar/magicMirror/blob/master/src/example_screenshot_2560_1440.png" width="1000">
 </p>
 
 ## Summary
