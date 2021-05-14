@@ -3,7 +3,7 @@ asgiref==3.3.1
 cachetools==4.2.1
 certifi==2020.12.5
 chardet==4.0.0
-Django==3.1.5
+Django>=3.1.8
 django-apscheduler==0.5.2
 django-cors-headers==3.7.0
 djangorestframework==3.12.2
